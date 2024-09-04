@@ -1,5 +1,8 @@
 import wollok.game.*
 import pepita.*
+import extras.*
+import posiciones.*
+import comidas.*
 
 program pepitaGame {
 	game.title("Pepita") 	//Valor por defecto "Wollok Game"
@@ -8,7 +11,17 @@ program pepitaGame {
 	game.cellSize(50) 		//valor por defecto 50
 	//search assets in assets folder, for example, for the background
 	//Valor por defecto game.ground("ground.png")
-	
-	//game.addVisual(pepita)
+	game.addVisual(nido)
+	game.addVisual(silvestre)
+	game.addVisual(pepita)
+	game.addVisual(muro) //No atravesable
+	keyboard.down().onPressDo({ pepita.mover(abajo) })
+	keyboard.up().onPressDo({ pepita.mover(arriba) })
+	keyboard.left().onPressDo({ pepita.mover(izquierda) })
+	keyboard.right().onPressDo({ pepita.mover(derecha) })
+	game.onCollideDo(pepita, { algo => algo.colision(pepita) })
+	game.onTick(1000, "GRAVEDAD", { pepita.caer() })
+	//game.addVisual(manzana)
+	//game.addVisual(alpiste)
 	game.start()	
 }
