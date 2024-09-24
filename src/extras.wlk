@@ -68,6 +68,10 @@ object fondo {
 		return false
 	}
 
+    method colisiono(personaje) {
+        
+    }
+
 }
 
 object reloj {
@@ -92,6 +96,11 @@ object reloj {
     method solida() {
 		return false
 	}
+    
+    method colisiono(personaje) {
+        
+    }
+
 
 }
 

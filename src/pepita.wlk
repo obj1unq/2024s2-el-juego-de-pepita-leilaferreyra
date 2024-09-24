@@ -7,11 +7,6 @@ object muerta {
 		return false
 	}
 
-	method comprobarFinDeJuego(personaje) {
-		game.say(personaje, "Perdí! :(")
-		game.schedule(10, {game.stop()})
-	}
-
 	method fondo() {
 		return 0
 	}
@@ -23,9 +18,6 @@ object viva {
 		return true
 	}
 
-	method comprobarFinDeJuego(personaje) {
-
-	}
 
 	method fondo() {
 		return 1
@@ -37,11 +29,6 @@ object victoriosa {
 	method puedeMover() {
 		return false
 	}
-
-	method comprobarFinDeJuego(personaje) {
-		game.say(personaje, "Gané! :)")
-		game.schedule(10, {game.stop()})
-	}
 	
 	method fondo() {
 		return 1
@@ -51,23 +38,29 @@ object victoriosa {
 }
 
 object pepita {
-	var energia = 1000
+
+	var energia = 100
 	var property position = game.at(3,9)
-	const destino = nido
-	const cazador = silvestre
+	var property estado = viva
 
 	method comer(comida) {
 		energia += comida.energiaQueOtorga()
 	}
 
-	method fondo() {
-		return self.estado().fondo()
+	method ganar() {
+		estado = victoriosa
+		game.say(self, "Gané! :(")
+		game.schedule(3000, {game.stop()})
 	}
 
+	method perder() {
+		estado = muerta
+		game.say(self, "Perdí! :)")
+		game.schedule(3000, {game.stop()})
+	}
 	
-	method comerAhi() {
-		const comida = game.uniqueCollider(self)
-		self.comerVisual(comida)
+	method fondo() {
+		return self.estado().fondo()
 	}
 
 	method comerVisual(comida) {
@@ -103,19 +96,6 @@ object pepita {
 		self.desplazar(abajo)
 	}
 
-	method estado(){
-		return if (self.estaEnDestino()){
-			victoriosa
-		} else if (self.muerta()){
-			muerta
-		} else {
-			viva
-		}
-	}
-
-	method muerta() {
-		return self.estaAtrapada() or not self.puedeVolar(1)
-	}
 	
 	method text() {
 		return self.energia().toString()
@@ -151,21 +131,15 @@ object pepita {
 	method desplazar(direccion) {
 		self.validarMover(direccion)
 		position = direccion.siguiente(self.position())
-		self.estado().comprobarFinDeJuego(self)
+		if (position.y() == 0 and not self.puedeVolar(1)) {
+			self.perder()
+		}
 	}
 
 	method mover(direccion) {
 		self.validarMover(direccion)
 		self.volar(1)
 		self.desplazar(direccion)
-	}
-
-	method estaEnDestino(){
-		return position == destino.position()
-	}
-
-	method estaAtrapada(){
-		return position == cazador.position()
 	}
 
 	method solida() {

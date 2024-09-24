@@ -27,8 +27,8 @@ program pepitaGame {
 	keyboard.down().onPressDo({pepita.mover(abajo)})
 	keyboard.right().onPressDo({pepita.mover(derecha)})
 	
-	keyboard.c().onPressDo({pepita.comerAhi()})
 
+	game.onCollideDo(pepita, {cosa => cosa.colisiono(pepita)})
 
 	//game.onTick(5000, "cambiaFondo", {fondo.cambiar()})
 	game.onTick(1000, "reloj", {reloj.tick()})

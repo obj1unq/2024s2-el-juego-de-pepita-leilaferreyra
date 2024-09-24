@@ -24,6 +24,10 @@ object manzana {
 		return false
 	}
 
+	method colisiono(personaje) {
+		personaje.comerVisual(self)
+	}
+
 
 }
 
@@ -41,6 +45,10 @@ object alpiste {
 	}
 	method solida() {
 		return false
+	}
+
+	method colisiono(personaje) {
+		personaje.comerVisual(self)
 	}
 
 
