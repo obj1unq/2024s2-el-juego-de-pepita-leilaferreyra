@@ -11,10 +11,6 @@ object nido {
 		return false
 	}
 
-    method colisiono(personaje) {
-        personaje.ganar()
-    }
-
 }
 
 object silvestre{
@@ -31,9 +27,6 @@ object silvestre{
 		return false
 	}
 
-    method colisiono(personaje) {
-        personaje.perder()        
-    }
 
 }
 
