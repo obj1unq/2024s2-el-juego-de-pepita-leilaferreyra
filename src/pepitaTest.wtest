@@ -3,6 +3,7 @@ import comidas.*
 
 describe "Tests de Pepita" {
 
+	const manzana = new Manzana(position = game.at(3,5))
 
 	test "Al comer pepita aumenta su energia" {
 		pepita.comer(manzana)

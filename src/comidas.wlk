@@ -1,8 +1,54 @@
 import wollok.game.*
+import randomizer.*
 
-object manzana {
+object manzanaFactory {
+
+	method construir(position) {
+		return new Manzana(position=position)
+	}
+}
+object alpisteFactory {
+	method construir(position) {
+		return new Alpiste(position = position,
+		peso = 40.randomUpTo(100).truncate(2) )
+	}
+}
+object administradorComidas {
+	
+	const creados = #{} 
+	const factories = [ manzanaFactory, alpisteFactory]
+
+	method nuevaComida() {
+		if (self.hayEspacio()) {
+			const comida = self.construirComida()
+			game.addVisual(comida)
+			creados.add(comida)
+		}
+	}
+
+	method construirComida() {
+		// const factory = if(0.randomUpTo(100) < 30) {
+		// 	manzanaFactory
+		// }
+		// else {
+		// 	alpisteFactory
+		// }
+		return factories.anyOne().construir(randomizer.emptyPosition()) 
+	}
+
+	method hayEspacio() {
+		return creados.size() < 3
+	}
+
+	method remover(comida) {
+		game.removeVisual(comida)
+		creados.remove(comida)
+	}
+}
+class Manzana {
 	const base= 5
 	var madurez = 1
+	const position
 	
 	method energiaQueOtorga() {
 		return base * madurez	
@@ -14,7 +60,7 @@ object manzana {
 	}
 
 	method position() {
-		return game.at(3,5)
+		return position
 	}
 
 	method image() {
@@ -24,17 +70,28 @@ object manzana {
 		return false
 	}
 
+	method colision(personaje) {
+		personaje.comerVisual(self)
+	}
+
 
 }
 
-object alpiste {
+class Alpiste {
+
+	const position
+	const peso
 
 	method energiaQueOtorga() {
-		return 20
+		return peso
 	} 
 
+	method text() {
+		return peso.toString()
+	}
+
 	method position() {
-		return game.at(6,6)
+		return position
 	}
 	method image() {
 		return "alpiste.png"
@@ -42,6 +99,11 @@ object alpiste {
 	method solida() {
 		return false
 	}
+
+	method colision(personaje) {
+		personaje.comerVisual(self)
+	}
+
 
 
 }

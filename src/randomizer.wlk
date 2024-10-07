@@ -18,5 +18,7 @@ object randomizer {
 			return self.emptyPosition()
 		}
 	}
+
+	
 	
 }

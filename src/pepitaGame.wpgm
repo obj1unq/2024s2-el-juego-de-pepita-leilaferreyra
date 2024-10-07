@@ -3,23 +3,17 @@ import pepita.*
 import posiciones.*
 import extras.*
 import comidas.*
+import randomizer.*
+import mapa.*
 
 
 program pepitaGame {
 	game.title("Pepita") 	//Valor por defecto "Wollok Game"
-	game.height(10) 		//valor por defecto 5
-	game.width(10) 			//valor por defecto 5
 	game.cellSize(50) 		//valor por defecto 50
 	//search assets in assets folder, for example, for the background
 	//game.ground("fondo2.jpg")
-	game.addVisual(fondo)
-	game.addVisual(reloj)
-	game.addVisual(muro)
-	game.addVisual(nido)
-	game.addVisual(silvestre)
-	game.addVisual(manzana)
-	game.addVisual(alpiste)
-	game.addVisual(pepita)
+	mapa.dibujar()
+
 
 	//game.addVisualCharacter(pepita)
 	keyboard.up().onPressDo({pepita.mover(arriba)})
@@ -27,12 +21,14 @@ program pepitaGame {
 	keyboard.down().onPressDo({pepita.mover(abajo)})
 	keyboard.right().onPressDo({pepita.mover(derecha)})
 	
-	keyboard.c().onPressDo({pepita.comerAhi()})
-
+	//keyboard.c().onPressDo({pepita.comerAhi()})
+	game.onCollideDo(pepita, {algo => algo.colision(pepita)})
 
 	//game.onTick(5000, "cambiaFondo", {fondo.cambiar()})
 	game.onTick(1000, "reloj", {reloj.tick()})
-	game.onTick(800, "gravedad", {pepita.caer()})
+	//game.onTick(800, "gravedad", {pepita.caer()})
+
+	game.onTick(3000, "comidas", {administradorComidas.nuevaComida()})
 
 	//Esto es por si quieren cambiar el fondo en la versión de eventos (recordada) al tocar una tecla
 	//keyboard.f().onPressDo({fondo.cambiar()})

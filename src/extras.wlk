@@ -1,7 +1,7 @@
 import wollok.game.*
 import pepita.*
 object nido {
-    const property position = game.at(7,8)
+    var property position = game.at(7,8)
 
     method image(){
         return "nido.png"
@@ -10,6 +10,11 @@ object nido {
     method solida() {
 		return false
 	}
+    
+    method colision(personaje) {
+		personaje.ganar()
+	}
+
 
 }
 
@@ -27,6 +32,9 @@ object silvestre{
 		return false
 	}
 
+    method colision(personaje) {
+		personaje.perder()
+	}
 
 }
 
@@ -61,6 +69,10 @@ object fondo {
 		return false
 	}
 
+    method colision(personaje) {
+
+    }
+
 }
 
 object reloj {
@@ -85,18 +97,22 @@ object reloj {
     method solida() {
 		return false
 	}
+    
+    method colision(personaje) {
+
+    }
+
 
 }
 
-object muro {
+class Muro {
+
+    const property position
 
     method image() {
         return "muro.png"
     }
 
-    method position() {
-        return game.at(3,3)
-    }
     method solida() {
 		return true
 	}

@@ -1,3 +1,4 @@
+import comidas.*
 import wollok.game.*
 import posiciones.*
 import extras.*
@@ -51,10 +52,12 @@ object victoriosa {
 }
 
 object pepita {
-	var energia = 1000
+	var energia = 100
 	var property position = game.at(3,9)
 	const destino = nido
 	const cazador = silvestre
+
+	var estado = viva
 
 	method comer(comida) {
 		energia += comida.energiaQueOtorga()
@@ -65,14 +68,14 @@ object pepita {
 	}
 
 	
-	method comerAhi() {
-		const comida = game.uniqueCollider(self)
-		self.comerVisual(comida)
-	}
+	// method comerAhi() {
+	// 	const comida = game.uniqueCollider(self)
+	// 	self.comerVisual(comida)
+	// }
 
 	method comerVisual(comida) {
 		self.comer(comida)
-		game.removeVisual(comida)
+		administradorComidas.remover(comida)
 	}
 
 	method energiaParaVolar(kms) {
@@ -103,14 +106,23 @@ object pepita {
 		self.desplazar(abajo)
 	}
 
+	method ganar() {
+		estado = victoriosa
+	}
+
+	method perder() {
+		estado = muerta
+	}
+
 	method estado(){
-		return if (self.estaEnDestino()){
-			victoriosa
-		} else if (self.muerta()){
-			muerta
-		} else {
-			viva
-		}
+		return estado
+		// return if (self.estaEnDestino()){
+		// 	victoriosa
+		// } else if (self.muerta()){
+		// 	muerta
+		// } else {
+		// 	viva
+		// }
 	}
 
 	method muerta() {
